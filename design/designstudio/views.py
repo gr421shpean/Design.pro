@@ -13,7 +13,7 @@ from .models import CustomUser, Application
 
 
 def base(request):
-    return render(request, 'base.html')
+    return render(request, "base.html",)
 
 def parlour(request):
     return render(request, "parlour.html",)
