@@ -42,3 +42,6 @@ class RegistrationForm(forms.Form):
         model = CustomUser
 
 
+class LoginForm(forms.Form):
+    username = forms.CharField(label='Логин (латиница и дефис)', max_length=30, required=True, widget=forms.TextInput(attrs={'placeholder': 'Логин'}))
+    password = forms.CharField(label='Пароль', max_length=30, required=True, widget=forms.PasswordInput(attrs={'placeholder': 'Пароль'}))

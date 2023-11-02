@@ -3,6 +3,9 @@ from django.shortcuts import render
 from django.contrib.auth.forms import UserCreationForm
 from django.shortcuts import redirect
 from django.views import generic
+from django.contrib.auth import login as dj_login
+from .forms import LoginForm
+from django.contrib.auth import authenticate
 
 from .forms import  RegistrationForm
 
@@ -14,6 +17,22 @@ def base(request):
 
 def parlour(request):
     return render(request, "parlour.html",)
+
+def login(request):
+    if request.method == 'POST':
+        form = LoginForm(request.POST)
+        if form.is_valid():
+            username = form.cleaned_data["username"]
+            password = form.cleaned_data["password"]
+            user = authenticate(username=username, password=password)
+            if user is not None:
+                dj_login(request, user)
+                return redirect('cabinet')
+            else:
+                form.add_error(None, 'Неверный логин или пароль')
+    else:
+        form = LoginForm()
+    return render(request, "registration/login.html", {"form": form})
 
 def register(request):
     if request.method == 'POST':
