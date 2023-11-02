@@ -40,3 +40,5 @@ class RegistrationForm(forms.Form):
         return password_confirm
     class Meta:
         model = CustomUser
+
+

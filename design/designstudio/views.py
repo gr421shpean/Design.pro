@@ -2,13 +2,18 @@ from django.contrib.auth import login
 from django.shortcuts import render
 from django.contrib.auth.forms import UserCreationForm
 from django.shortcuts import redirect
+from django.views import generic
 
 from .forms import  RegistrationForm
-from .models import CustomUser
+
+from .models import CustomUser, Application
 
 
 def base(request):
     return render(request, 'base.html')
+
+def parlour(request):
+    return render(request, "parlour.html",)
 
 def register(request):
     if request.method == 'POST':
@@ -27,3 +32,7 @@ def register(request):
         form = RegistrationForm()
 
     return render(request, 'registration/register.html', {'form': form})
+class ApplicationListView(generic.ListView):
+    model = Application
+    paginate_by = 4
+    template_name = 'base.html'
