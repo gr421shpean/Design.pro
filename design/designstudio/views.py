@@ -1,11 +1,12 @@
-from django.contrib.auth import login
+
 from django.shortcuts import render
-from django.contrib.auth.forms import UserCreationForm
+
 from django.shortcuts import redirect
 from django.views import generic
 from django.contrib.auth import login as dj_login
 from .forms import LoginForm
 from django.contrib.auth import authenticate
+from django.views.generic.edit import CreateView
 
 from .forms import Registration
 
@@ -36,6 +37,14 @@ def login(request):
 
 def logout(request):
     return render(request, "logout.html")
+
+def requestmain(request):
+    return render(request, "main_request.html",)
+
+class ApplicationCreate(CreateView):
+    model = Application
+    fields = ['name', 'description', 'category', 'photo_file ']
+    template_name = 'main_request.html'
 
 def register(request):
     if request.method == 'POST':
