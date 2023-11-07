@@ -10,4 +10,5 @@ urlpatterns = [
     path('logout/', views.logout, name='logout'),
     url('application/', views.ApplicationListView.as_view(), name='application'),
     path('personalarea/', views.personalarea, name='personalarea'),
+    path('main_request/', views.ApplicationCreate.as_view(), name='main_request'),
 ]
