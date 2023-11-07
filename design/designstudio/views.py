@@ -7,7 +7,7 @@ from django.contrib.auth import login as dj_login
 from .forms import LoginForm
 from django.contrib.auth import authenticate
 
-from .forms import  RegistrationForm
+from .forms import Registration
 
 from .models import CustomUser, Application
 
@@ -15,8 +15,8 @@ from .models import CustomUser, Application
 def base(request):
     return render(request, "base.html",)
 
-def parlour(request):
-    return render(request, "parlour.html",)
+def personalarea(request):
+    return render(request, "personalarea.html",)
 
 def login(request):
     if request.method == 'POST':
@@ -27,16 +27,19 @@ def login(request):
             user = authenticate(username=username, password=password)
             if user is not None:
                 dj_login(request, user)
-                return redirect('cabinet')
+                return redirect('personalarea')
             else:
                 form.add_error(None, 'Неверный логин или пароль')
     else:
         form = LoginForm()
     return render(request, "registration/login.html", {"form": form})
 
+def logout(request):
+    return render(request, "logout.html")
+
 def register(request):
     if request.method == 'POST':
-        form = RegistrationForm(request.POST)
+        form = Registration(request.POST)
         if form.is_valid():
             full_name = form.cleaned_data['full_name']
             username = form.cleaned_data['username']
@@ -45,12 +48,12 @@ def register(request):
             user = CustomUser.objects.create_user(username, email, password)
             user.first_name = full_name
             user.save()
-            login(request, user)
+            dj_login(request, user)
             return redirect('base')
     else:
-        form = RegistrationForm()
-
+        form = Registration()
     return render(request, 'registration/register.html', {'form': form})
+
 class ApplicationListView(generic.ListView):
     model = Application
     paginate_by = 4

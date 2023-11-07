@@ -118,10 +118,10 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-runserver.default_port = "8080"
+runserver.default_port = "8090"
 
 AUTH_USER_MODEL = 'designstudio.CustomUser'
 LOGIN_REDIRECT_URL = '/'
 
 MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
+MEDIA_ROOOT = os.path.join(BASE_DIR, 'media/')
