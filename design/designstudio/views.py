@@ -8,7 +8,7 @@ from django.contrib.auth import authenticate
 from django.urls import reverse_lazy
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from .forms import Registration
-from .models import CustomUser, Application
+from .models import CustomUser, Application, Category
 
 
 def base(request):
@@ -95,10 +95,12 @@ class ApplicationListViewAdmin(generic.ListView):
     def get_queryset(self):
         return Application.objects.order_by('-date')[:4]
 
-
-
-
 class ApplicationListView(generic.ListView):
     model = Application
     paginate_by = 4
     template_name = 'base.html'
+
+class CategoryView(generic.ListView):
+    model = Category
+    template_name = 'category.html'
+    context_object_name = 'category'

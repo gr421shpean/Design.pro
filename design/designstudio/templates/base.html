@@ -9,7 +9,7 @@
         {% if user.username == 'admin'%}
             <h2>Страница администратора</h2>
 
-
+            <a href="{% url 'category'%}">Категории</a><br>
             <a href="{% url 'logout'%}">Выход</a><br>
         {% else %}
             {% if user.is_authenticated %}
@@ -20,7 +20,7 @@
                   <a href="{% url 'logout'%}">Выход</a>
             {% else %}
               <ul class="sidebar-nav">
-                <a href="{% url 'registration'%}">Регистрация</a><br>
+                <a href="{% url 'register'%}">Регистрация</a><br>
                 <a href="{% url 'login'%}">Авторизация</a>
                   {% if user.
 
