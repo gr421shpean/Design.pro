@@ -1,7 +1,7 @@
 {% if category_list %}
     <h1>Категории заявок</h1>
         <a href="{% url 'base'%}">Вернуться обратно</a><br>
-        <a href="{% url ''%}">Создать</a><br><br>
+        <a href="{% url 'creating_category'%}">Создать</a><br><br>
       {% for ap in category_list %}
         <ul>
             <li>{{ap.name}}</li>

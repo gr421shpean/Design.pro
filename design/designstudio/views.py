@@ -110,3 +110,9 @@ class CategoryDelete(DeleteView):
     context_object_name = 'category'
     template_name = 'category_delete.html'
     success_url = reverse_lazy('category')
+
+class CategoryCreate(CreateView):
+    model = Category
+    fields = ['name']
+    template_name = 'creating_category.html'
+    success_url = reverse_lazy('category')
