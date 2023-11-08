@@ -13,4 +13,5 @@ urlpatterns = [
     path('main_request/', views.ApplicationCreate.as_view(), name='main_request'),
     path('my_request/', views.MyPostListViews.as_view(), name='my_request'),
     path('request/<int:pk>/delete/', views.ApplicationDelete.as_view(), name='application_confirm_delete'),
+    path('admin_base/', views.ApplicationListViewAdmin.as_view(), name='admin_base'),
 ]

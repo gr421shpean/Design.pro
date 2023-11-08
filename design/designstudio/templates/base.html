@@ -6,32 +6,48 @@
 <body>
     {% block sidebar %}
             <h1>Design.pro</h1>
-        {% if user.is_authenticated %}
-            <a href="{% url 'application'%}">Просмотр заявок</a><br>
-            <a href="{% url 'personalarea'%}">Личный кабинет</a><br>
+        {% if user.username == 'admin'%}
+            <h2>Страница администратора</h2>
+
+
             <a href="{% url 'logout'%}">Выход</a><br>
         {% else %}
-          <ul class="sidebar-nav">
-              <a href="{% url 'application'%}">Просмотр заявок</a><br>
-              <a href="{% url 'register'%}">Регистрация</a><br>
-              <a href="{% url 'login'%}">Авторизация</a>
+            {% if user.is_authenticated %}
+                <a href="{% url 'application'%}">Просмотр заявок</a><br>
+                <a href="{% url 'my_request' %}">Мои заявки</a><br>
+                  <a href="{% url 'personalarea'%}">Личный кабинет</a><br>
+                    <a href="{% url 'register'%}">Регистрация</a><br>
+                  <a href="{% url 'logout'%}">Выход</a>
+            {% else %}
+              <ul class="sidebar-nav">
+                <a href="{% url 'registration'%}">Регистрация</a><br>
+                <a href="{% url 'login'%}">Авторизация</a>
+                  {% if user.
 
-          </ul>
-        {% endif %}
+              </ul>
+            {% endif %}
+    {% endif%}
     {% endblock %}
 {% block content %}
-
-    {% if application_list %}
-    <h2>Список заявок</h2>
-    <h3>Количество заявок, находящихся в статусе «Принято в работу»: {{ num_application }}</h3><br>
-
+{% if application_list %}
+        {% if user.username == 'admin'%}
+            <h1>Список заявоaк пользователей</h1>
+        {% else %}
+            <h1>Список заявок</h1>
+            <h2>Количество заявок, находящихся в статусе «Принято в работу»: {{ num_application }}</h2><br>
+        {% endif %}
       {% for ap in application_list %}
-        <ul>
-            <li>{{ap.date}}</li>
-            <li><a href="{{ application.get_absolute_url }}">{{ ap.name }}</a><br> ({{ap.category}})<br>({{ap.status}})</li>
-            <img src="{{ ap.photo_file.url}}" width="400px", height="350px">
 
-        </ul>
+        <ul>
+            <p>{{ap.date}} <br> <a> {{ ap.name }}</a><br> ({{ap.category}})<br>({{ap.status}})</p>
+            <img src="{{ ap.photo_file.url}}" width="400px", height="350px"><br>
+            {% if user.username == 'admin'%}
+                {% if ap.status == 'Новая' %}
+                    <a href="{% url 'change_status' ap.id %}">Сменить статус</a>
+                {% endif %}
+            {% endif %}
+
+        </ul><br><br><br>
       {% endfor %}
 
     {% endif %}

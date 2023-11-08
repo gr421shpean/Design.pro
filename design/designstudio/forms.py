@@ -1,12 +1,7 @@
 from django import forms
 from django.core.exceptions import ValidationError
 import re
-
-
 from .models import CustomUser
-
-
-
 
 
 class Registration(forms.Form):

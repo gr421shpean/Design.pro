@@ -76,6 +76,7 @@ class MyPostListViews(generic.ListView):
 
 
 
+
     def get_queryset(self):
         return Application.objects.filter(user=self.request.user).order_by('-date')
 
@@ -85,6 +86,14 @@ class ApplicationDelete(DeleteView):
     context_object_name = 'application'
     template_name = 'application_confirm_delete.html'
     success_url = reverse_lazy('my_request')
+
+class ApplicationListViewAdmin(generic.ListView):
+    model = Application
+    template_name = 'base.html'
+    context_object_name = 'application'
+
+    def get_queryset(self):
+        return Application.objects.order_by('-date')[:4]
 
 
 
