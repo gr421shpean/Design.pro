@@ -27,14 +27,14 @@ class Application(models.Model):
     name = models.CharField(max_length=100)
     description = models.TextField(max_length=1000, default='something')
     category = models.ForeignKey('category', on_delete=models.SET_NULL, null=True)
-
+    user = models.ForeignKey('CustomUser', on_delete=models.SET_NULL, null=True)
     date = models.DateTimeField(verbose_name='Время создания заявки', auto_now_add=True)
     status = models.CharField(max_length=254, default='Новая')
 
     REQUEST_STATUS = (
-        ('N', 'Новая'),
-        ('P', 'Принято в работу'),
-        ('C', 'Выполнено'),
+        ('Новая', 'Новая'),
+        ('Принята в работу', 'Принято в работу'),
+        ('Выплнено', 'Выполнено'),
     )
     status = models.CharField(
         max_length=16,

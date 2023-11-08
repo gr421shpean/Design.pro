@@ -1,16 +1,15 @@
-<h1>Design.pro</h1>
-<h2>Мои запросы</h2>
+<h1>Мои запросы</h1>
 <a href="{% url 'personalarea'%}">Личный кабинет</a><br>
-{% if posts %}
-    {% for i in posts %}
+{% if application %}
+    {% for i in application %}
         <h3>{{ i.name }}</h3>
         <p>{{ i.date }}</p>
         <p>{{ i.description }}</p>
         <p>{{ i.category }}</p>
         <p>{{ i.status }}</p>
          <img src="{{ i.photo_file.url}}" width="400px", height="350px"><br>
-<a href="{% url 'application_delete' i.id %}">Удалить</a><br><br>
+<a href="{% url 'application_confirm_delete' i.id %}">Удалить</a><br><br>
     {% endfor %}
  {% else %}
-    <p>Вы ещё не созали заявок</p>
+    <p>У вас нет заявок</p>
 {% endif %}

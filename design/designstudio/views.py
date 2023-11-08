@@ -6,9 +6,8 @@ from django.contrib.auth import login as dj_login
 from .forms import LoginForm
 from django.contrib.auth import authenticate
 from django.urls import reverse_lazy
-from django.views.generic.edit import CreateView
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from .forms import Registration
-
 from .models import CustomUser, Application
 
 
@@ -59,7 +58,7 @@ class ApplicationCreate(LoginRequiredMixin, CreateView):
     model = Application
     fields = ['name', 'description', 'category', 'photo_file']
     template_name = 'main_request.html'
-    success_url = reverse_lazy('main_request')
+    success_url = reverse_lazy('my_request')
 
     def form_valid(self, form):
         form.instance.user = self.request.user
@@ -68,6 +67,25 @@ class ApplicationCreate(LoginRequiredMixin, CreateView):
 
 def request_main(request):
     return render(request, "main_request.html",)
+
+
+class MyPostListViews(generic.ListView):
+    model = Application
+    context_object_name = 'application'
+    template_name = 'my_request.html'
+
+
+
+    def get_queryset(self):
+        return Application.objects.filter(user=self.request.user).order_by('-date')
+
+
+class ApplicationDelete(DeleteView):
+    model = Application
+    context_object_name = 'application'
+    template_name = 'application_confirm_delete.html'
+    success_url = reverse_lazy('my_request')
+
 
 
 
