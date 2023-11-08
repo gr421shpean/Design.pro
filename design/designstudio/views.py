@@ -1,10 +1,11 @@
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render
 from django.shortcuts import redirect
 from django.views import generic
 from django.contrib.auth import login as dj_login
 from .forms import LoginForm
 from django.contrib.auth import authenticate
-
+from django.urls import reverse_lazy
 from django.views.generic.edit import CreateView
 from .forms import Registration
 
@@ -54,13 +55,18 @@ def register(request):
     return render(request, 'registration/register.html', {'form': form})
 
 
-class ApplicationCreate(CreateView):
+class ApplicationCreate(LoginRequiredMixin, CreateView):
     model = Application
-    fields = ['name', 'description', 'category', 'photo_file ']
+    fields = ['name', 'description', 'category', 'photo_file']
     template_name = 'main_request.html'
+    success_url = reverse_lazy('main_request')
+
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        return super().form_valid(form)
 
 
-def requestmain(request):
+def request_main(request):
     return render(request, "main_request.html",)
 
 
