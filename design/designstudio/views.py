@@ -91,16 +91,19 @@ class ApplicationListViewAdmin(generic.ListView):
     model = Application
     template_name = 'base.html'
     context_object_name = 'application_list'
+    def get_queryset(self):
+        return Application.objects.order_by('-date')[:4]
+
+class ApplicationListView(generic.ListView):
+    model = Application
+    paginate_by = 4
+    template_name = 'base.html'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['num_application'] = Application.objects.filter(status__exact='Принято в работу').count()
         return context
 
-class ApplicationListView(generic.ListView):
-    model = Application
-    paginate_by = 4
-    template_name = 'base.html'
 
 class CategoryView(generic.ListView):
     model = Category
