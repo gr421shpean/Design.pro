@@ -3,7 +3,7 @@ from django.shortcuts import render
 from django.shortcuts import redirect
 from django.views import generic
 from django.contrib.auth import login as dj_login
-from .forms import LoginForm
+from .forms import LoginForm, ChangeStatusRequest
 from django.contrib.auth import authenticate
 from django.urls import reverse_lazy
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
@@ -90,10 +90,12 @@ class ApplicationDelete(DeleteView):
 class ApplicationListViewAdmin(generic.ListView):
     model = Application
     template_name = 'base.html'
-    context_object_name = 'application'
+    context_object_name = 'application_list'
 
-    def get_queryset(self):
-        return Application.objects.order_by('-date')[:4]
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['num_application'] = Application.objects.filter(status__exact='Принято в работу').count()
+        return context
 
 class ApplicationListView(generic.ListView):
     model = Application
@@ -116,3 +118,9 @@ class CategoryCreate(CreateView):
     fields = ['name']
     template_name = 'creating_category.html'
     success_url = reverse_lazy('category')
+
+class ChangeStatusRequest(UpdateView):
+    model = Application
+    form_class = ChangeStatusRequest
+    template_name = 'change_status.html'
+    success_url = reverse_lazy('admin_base')

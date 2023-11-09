@@ -6,9 +6,9 @@
 <body>
     {% block sidebar %}
             <h1>Design.pro</h1>
-        {% if user.username == 'admin'%}
+        {% if user.is_superuser %}
             <h2>Страница администратора</h2>
-
+            <a href="{% url 'admin_base'%}">Просмотр заявок потльзователей</a><br>
             <a href="{% url 'category'%}">Категории</a><br>
             <a href="{% url 'logout'%}">Выход</a><br>
         {% else %}
@@ -29,8 +29,8 @@
     {% endif%}
     {% endblock %}
 {% block content %}
-{% if application_list %}
-        {% if user.username == 'admin'%}
+{% if application_list%}
+        {% if user.is_superuser %}
             <h1>Список заявоaк пользователей</h1>
         {% else %}
             <h1>Список заявок</h1>
@@ -41,7 +41,7 @@
         <ul>
             <p>{{ap.date}} <br> <a> {{ ap.name }}</a><br> ({{ap.category}})<br>({{ap.status}})</p>
             <img src="{{ ap.photo_file.url}}" width="400px", height="350px"><br>
-            {% if user.username == 'admin'%}
+            {% if user.is_superuser %}
                 {% if ap.status == 'Новая' %}
                     <a href="{% url 'change_status' ap.id %}">Сменить статус</a>
                 {% endif %}

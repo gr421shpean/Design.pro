@@ -6,11 +6,15 @@
 </head>
 <body>
     <h1>Design.pro</h1>
-    <h2>Личный кабинет</h2>
-    <a href="{% url 'base'%}">Главная страница</a><br>
-    <a href="{% url 'application'%}">Просмотр заявок</a><br>
-    <a href="{% url 'main_request' %}">Создать заявку</a><br>
-    <a href="{% url 'my_request' %}">Мои заявки</a><br>
-    <a href="{%  url 'logout' %}">Выход</a>
+    {% if user.is_superuser %}
+        <h2>Личный кабинет администратора</h2>
+        <a href="{% url 'base'%}">Перейти на главную страницу</a><br
+    {% else %}
+        <h2>Личный кабинет</h2>
+        <a href="{% url 'base'%}">Главная страница</a><br>
+        <a href="{% url 'main_request' %}">Создать заявку</a><br>
+        <a href="{% url 'my_request' %}">Мои заявки</a><br>
+        <a href="{%  url 'logout' %}">Выход</a>
+    {% endif %}
 </body>
 </html>

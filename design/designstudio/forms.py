@@ -1,7 +1,7 @@
 from django import forms
 from django.core.exceptions import ValidationError
 import re
-from .models import CustomUser
+from .models import CustomUser, Application
 
 
 class Registration(forms.Form):
@@ -43,5 +43,25 @@ class LoginForm(forms.Form):
     password = forms.CharField(label='Пароль', max_length=30, required=True, widget=forms.PasswordInput(attrs={'placeholder': 'Пароль'}))
 
 
+class ChangeStatusRequest(forms.ModelForm):
+    comment = forms.CharField(required=False)
+    img = forms.ImageField(required=False)
+    class Meta:
+        model = Application
+        fields = ['status', 'img', 'comment']
 
+    def clean(self):
+        cleaned_data = super().clean()
+        new_status = cleaned_data.get('status')
 
+        if new_status == 'Выполнено':
+            img = cleaned_data.get('img')
+            if not img:
+                raise forms.ValidationError("При смене статуса на 'Выполнено' необходимо прикрепить изображение дизайна")
+
+        if new_status == 'Принято в работу':
+            comment = cleaned_data.get('comment')
+            if not comment:
+                raise forms.ValidationError("При смене статуса на 'Принято в работу' необходимо указать комментарий")
+
+        return cleaned_data

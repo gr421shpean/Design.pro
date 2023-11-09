@@ -17,10 +17,10 @@ class CustomUser(AbstractUser):
 
 
 class Category(models.Model):
-    category = models.CharField(max_length=254, verbose_name='Выбор категории', blank=False)
+    name = models.CharField(max_length=254, verbose_name='Выбор категории', blank=False)
 
     def __str__(self):
-        return self.category
+        return self.name
 
 
 class Application(models.Model):
